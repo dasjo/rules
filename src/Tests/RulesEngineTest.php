@@ -54,9 +54,6 @@ class RulesEngineTest extends RulesDrupalTestBase {
     // Add an action to it and execute the rule.
     $rule->addAction('rules_test_log');
     $rule->execute();
-
-    // Test that the action logged something.
-    $this->assertRulesLogEntryExists('action called');
   }
 
   /**
@@ -79,9 +76,6 @@ class RulesEngineTest extends RulesDrupalTestBase {
     $rule->addAction('rules_test_log');
     $rule->setContextValue('test', 'test value');
     $rule->execute();
-
-    // Test that the action logged something.
-    $this->assertRulesLogEntryExists('action called');
   }
 
   /**
@@ -99,9 +93,6 @@ class RulesEngineTest extends RulesDrupalTestBase {
 
     $rule->addAction('rules_test_log');
     $rule->execute();
-
-    // Test that the action logged something.
-    $this->assertRulesLogEntryExists('action called');
   }
 
   /**

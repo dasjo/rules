@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\webprofiler\DataCollector\AssetDataCollector.
+ * Contains \Drupal\rules\WebProfiler\DataCollector\RulesDataCollector.
  */
 
-namespace Drupal\rules\Webprofiler\DataCollector;
+namespace Drupal\rules\WebProfiler\DataCollector;
 
 use Drupal\webprofiler\DataCollector\DrupalDataCollectorTrait;
 use Drupal\webprofiler\DrupalDataCollectorInterface;
@@ -13,10 +13,10 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
-use Drupal\rules\Webprofiler\RulesChannelLoggerWrapper;
+use Drupal\rules\WebProfiler\RulesChannelLoggerWrapper;
 
 /**
- * Collects data about the used assets (CSS/JS).
+ * Collects Rules module log entries.
  */
 class RulesDataCollector extends DataCollector implements DrupalDataCollectorInterface {
 
@@ -30,7 +30,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
   private $rulesLogger;
 
   /**
-   * Constructs a AssetDataCollector object.
+   * Constructs a RulesDataCollector object.
    *
    * @param RulesChannelLoggerWrapper $rulesLogger
    *   The rules logger channel.
@@ -85,7 +85,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
 
     $build['table_title'] = array(
       '#type' => 'inline_template',
-      '#template' => '<h3>Rules logs</h3>',
+      '#template' => '<h3>{{ "Rules logs"|t }}</h3>',
     );
 
     $cssHeader = array(
@@ -94,16 +94,11 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
       'passed_context',
     );
 
-    $rows = array();
-    foreach ($this->data['logs'] as $log) {
-      $row = array();
-
-      $row[] = $log['level'];
-      $row[] = $log['message'];
-      $row[] = implode(', ', array_keys($log['context']));
-
-      $rows[] = $row;
-    }
+    $rows = array_map(function ($log) {
+      return [
+        $log, $log['message'], implode(', ', array_keys($log['context']))
+      ];
+    }, $this->data['logs']);
 
     $build['logs_table'] = array(
       '#type' => 'table',

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\rules\Webprofiler\RulesChannelLoggerWrapper
+ * Contains Drupal\rules\WebProfiler\RulesChannelLoggerWrapper
  */
 
-namespace Drupal\rules\Webprofiler;
+namespace Drupal\rules\WebProfiler;
 
 use Drupal\rules\Logger\RulesChannelLogger;
 
@@ -32,7 +32,7 @@ class RulesChannelLoggerWrapper extends RulesChannelLogger {
   }
 
   /**
-   * Return list of rules log entries.
+   * Return a list of rules log entries.
    *
    * @return array
    *   List of rules log entries.

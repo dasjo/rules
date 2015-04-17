@@ -7,9 +7,9 @@
 
 namespace Drupal\rules\WebProfiler;
 
-use Drupal\rules\Logger\RulesChannelLogger;
+use Drupal\rules\Logger\RulesLoggerChannel;
 
-class RulesChannelLoggerWrapper extends RulesChannelLogger {
+class RulesChannelLoggerWrapper extends RulesLoggerChannel {
 
   /**
    * Static list of rules log entries.
@@ -24,11 +24,11 @@ class RulesChannelLoggerWrapper extends RulesChannelLogger {
   public function log($level, $message, array $context = array()) {
     parent::log($level, $message, $context);
 
-    $this->logs[] = array(
+    $this->logs[] = [
       'level' => $level,
       'message' => $message,
       'context' => $context,
-    );
+    ];
   }
 
   /**

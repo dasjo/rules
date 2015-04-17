@@ -26,13 +26,6 @@ class RulesLoggerChannel extends LoggerChannel {
   protected $config;
 
   /**
-   * Static storage of log entries.
-   *
-   * @var array
-   */
-  protected $logs = [];
-
-  /**
    * Creates RulesLoggerChannel object.
    *
    * @param ConfigFactoryInterface $config_factory
@@ -47,35 +40,12 @@ class RulesLoggerChannel extends LoggerChannel {
    * {@inheritdoc}
    */
   public function log($level, $message, array $context = []) {
-    $this->logs[] = [
-      'level' => $level,
-      'message' => $message,
-      'context' => $context,
-    ];
-
     // Log message only if rules logging setting is enabled.
     if ($this->config->get('debug_log')) {
       if ($this->levelTranslation[$this->config->get('log_errors')] >= $this->levelTranslation[$level]) {
         parent::log($level, $message, $context);
       }
     }
-  }
-
-  /**
-   * Returns the structured array of entries.
-   *
-   * @return array
-   *   Array of stored log entries.
-   */
-  public function getLogs() {
-    return $this->logs;
-  }
-
-  /**
-   * Clears the static logs entries cache.
-   */
-  public function clearLogs() {
-    $this->logs = [];
   }
 
 }

@@ -78,6 +78,57 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
   }
 
   /**
+   * Return amount of rules log entries with level higher then warning.
+   *
+   * @return int
+   *   Amount of error rules log entries.
+   */
+  public function getErrorLogsCount() {
+    $amount = 0;
+    array_walk($this->data['logs'], function ($log) use ($amount) {
+      if (in_array($log['level'], array('error', 'critical', 'alert', 'emergency'))) {
+        $amount++;
+      }
+    });
+
+    return $amount;
+  }
+
+  /**
+   * Return amount of rules log entries with level notice or warning.
+   *
+   * @return int
+   *   Amount of error rules log entries.
+   */
+  public function getNoticeLogsCount() {
+    $amount = 0;
+    array_walk($this->data['logs'], function ($log) use ($amount) {
+      if (in_array($log['level'], array('warning', 'notice'))) {
+        $amount++;
+      }
+    });
+
+    return $amount;
+  }
+
+  /**
+   * Return amount of rules info log entries.
+   *
+   * @return int
+   *   Amount of error rules log entries.
+   */
+  public function getInfoLogsCount() {
+    $amount = 0;
+    array_walk($this->data['logs'], function ($log) use ($amount) {
+      if (in_array($log['level'], array('debug', 'info'))) {
+        $amount++;
+      }
+    });
+
+    return $amount;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getPanel() {
@@ -96,7 +147,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
 
     $rows = array_map(function ($log) {
       return [
-        $log, $log['message'], implode(', ', array_keys($log['context']))
+        $log['level'], $log['message'], implode(', ', array_keys($log['context']))
       ];
     }, $this->data['logs']);
 

@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Contains rules_webprofiler_test.module
+ */
+
+/**
+ * Implements hook_init().
+ *
+ * Each page request it executes test action method to put logs to webprofiler.
+ */
+function rules_webprofiler_test_init() {
+  $manager = \Drupal::service('plugin.manager.rules_expression');
+  $action = $manager->createAction('rules_test_webprofiler_log');
+  $action->execute();
+}

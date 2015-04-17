@@ -10,6 +10,7 @@ namespace Drupal\rules_test\Plugin\Action;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\rules\Core\RulesActionBase;
 use Drupal\rules\Logger\RulesLoggerChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -27,7 +28,7 @@ class TestLogAction extends RulesActionBase implements ContainerFactoryPluginInt
    *
    * @var \Drupal\rules\Logger\RulesLoggerChannel
    */
-  protected $logger;
+  protected $loggerChannel;
 
   /**
    * Constructs a TestLogAction object.
@@ -38,12 +39,13 @@ class TestLogAction extends RulesActionBase implements ContainerFactoryPluginInt
    *   The plugin ID for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\rules\Logger\RulesLoggerChannel $logger
+   * @param \Drupal\rules\Logger\RulesLoggerChannel $loggerChannel
    *   Rules logger object.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, RulesLoggerChannel $logger) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, RulesLoggerChannel $loggerChannel, LoggerInterface $logger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->logger = $logger;
+    $this->loggerChannel = $loggerChannel;
+    $this->loggerChannel->addLogger($logger);
   }
 
   /**
@@ -54,7 +56,8 @@ class TestLogAction extends RulesActionBase implements ContainerFactoryPluginInt
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('logger.channel.rules')
+      $container->get('logger.channel.rules'),
+      $container->get('logger')
     );
   }
 
@@ -62,7 +65,7 @@ class TestLogAction extends RulesActionBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function execute() {
-    $this->logger->info('action called');
+    $this->loggerChannel->critical('action called');
   }
 
 }

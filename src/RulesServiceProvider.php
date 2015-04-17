@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\rules\WebProfiler\WebProfilerServiceProvider.
+ * Contains \Drupal\rules\RulesServiceProvider.
  */
 
 namespace Drupal\rules;
@@ -13,11 +13,9 @@ use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Defines a service profiler for the web profiler module.
+ * Defines a service profiler for the WebProfiler module.
  */
 class RulesServiceProvider extends ServiceProviderBase {
-
-  const CONFIG_PREFIX = 'webprofiler.config';
 
   /**
    * {@inheritdoc}
@@ -46,7 +44,7 @@ class RulesServiceProvider extends ServiceProviderBase {
    */
   protected function isRulesDebuggingEnabled() {
     $config_storage = BootstrapConfigStorageFactory::get();
-    $config = $config_storage->read(static::CONFIG_PREFIX);
+    $config = $config_storage->read('webprofiler.config');
     return !empty($config['active_toolbar_items']['rules']);
   }
 

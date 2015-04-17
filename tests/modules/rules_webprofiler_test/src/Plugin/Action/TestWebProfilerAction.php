@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *   label = @Translation("Test webprofiler action.")
  * )
  */
-class TestLogAction extends RulesActionBase implements ContainerFactoryPluginInterface {
+class TestWebProfilerAction extends RulesActionBase implements ContainerFactoryPluginInterface {
 
   /**
    * Rules logger instance.
@@ -76,15 +76,15 @@ class TestLogAction extends RulesActionBase implements ContainerFactoryPluginInt
    */
   public function execute() {
     // Get level passed via GET param.
-    $log = $this->request->get('log', 'enabled');
-    if ($log) {
-      $level = $this->request->get('log-level', 'debug');
-      $amount = $this->request->get('log-amount', 1);
-      $message = $this->request->get('log-message', 'debug message');
-      $contexts = $this->request->get('log-contexts', '');
-      for ($i = 0; $i < $amount; $i++) {
-        $this->logger->log($level, $message . '#' . $i, array_flip(explode('|', $contexts)));
-      }
+    if (!$log = $this->request->get('log', 'enabled')) {
+      return;
+    }
+    $level = $this->request->get('log-level', 'debug');
+    $amount = $this->request->get('log-amount', 1);
+    $message = $this->request->get('log-message', 'debug message');
+    $contexts = $this->request->get('log-contexts', '');
+    for ($i = 0; $i < $amount; $i++) {
+      $this->logger->log($level, $message . '#' . $i, array_flip(explode('|', $contexts)));
     }
   }
 

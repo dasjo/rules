@@ -1,4 +1,3 @@
 log_errors: warning
 debug_log: false
-debug: false
 log_level: info

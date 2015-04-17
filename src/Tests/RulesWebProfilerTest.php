@@ -9,16 +9,21 @@ namespace Drupal\rules\Tests;
 
 /**
  * Class RulesWebProfilerTest
- * @group Rules
+ *
+ * Tests integration Rules logging with WebProfiler module.
+ *
+ * @group rules
  */
 class RulesWebProfilerTest extends RulesDrupalWebTestBase {
 
   /**
-   * Authenticated user with access to web profiler.
+   * Authenticated user with access to WebProfiler.
    *
    * @var \Drupal\user\Entity\User
    */
   protected $webProfilerUser;
+
+  public static $modules = ['rules', 'webprofiler'];
 
   /**
    * {@inheritdoc}
@@ -31,7 +36,7 @@ class RulesWebProfilerTest extends RulesDrupalWebTestBase {
       'view webprofiler toolbar',
     ));
 
-    // Enables rules web debugging with web profiler.
+    // Enables rules web debugging with WebProfiler.
     $this->config('webprofiler.config')->set('active_toolbar_items.rules', 'rules');
     $this->drupalLogin($this->webProfilerUser);
   }

@@ -63,6 +63,9 @@ class ConfigEntityTest extends RulesDrupalTestBase {
     // Create the Rules expression object from the configuration.
     $expression = $loaded_entity->getExpression();
     $expression->execute();
+
+    // Test that the action logged something.
+    $this->assertRulesLogEntryExists('action called');
   }
 
   /**
@@ -86,6 +89,8 @@ class ConfigEntityTest extends RulesDrupalTestBase {
     // Create the Rules expression object from the configuration.
     $expression = $loaded_entity->getExpression();
     $expression->execute();
+    // Test that the action logged something.
+    $this->assertRulesLogEntryExists('action called');
   }
 
   /**

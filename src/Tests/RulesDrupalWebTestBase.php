@@ -10,18 +10,18 @@ namespace Drupal\rules\Tests;
 use Drupal\simpletest\WebTestBase;
 
 /**
- * Tests that the webprofile shows rules debug log and respects rules settings.
+ * Rules base web test.
  *
- * @group block
+ * @group rules
  */
-class RulesDrupalWebTestBase extends WebTestBase {
+abstract class RulesDrupalWebTestBase extends WebTestBase {
 
   /**
    * Modules to install.
    *
    * @var array
    */
-  public static $modules = ['rules', 'rules_ui'];
+  public static $modules = ['rules'];
 
   /**
    * Authenticated user.
@@ -45,7 +45,8 @@ class RulesDrupalWebTestBase extends WebTestBase {
 
     $permissions = array('create page content', 'administer rules');
     $this->user = $this->drupalCreateUser();
-    $this->adminUser = $this->drupalCreateUser($permissions);
+    // @todo uncomment it when patch with permission comes.
+    // $this->adminUser = $this->drupalCreateUser($permissions);
   }
 
 }

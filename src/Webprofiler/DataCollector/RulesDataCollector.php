@@ -10,6 +10,7 @@ namespace Drupal\rules\WebProfiler\DataCollector;
 use Drupal\webprofiler\DataCollector\DrupalDataCollectorTrait;
 use Drupal\webprofiler\DrupalDataCollectorInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Psr\Log\LogLevel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -23,7 +24,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
   use StringTranslationTrait, DrupalDataCollectorTrait;
 
   /**
-   * The rules logger wrapper.
+   * The Rules logger wrapper.
    *
    * @var RulesChannelLoggerWrapper
    */
@@ -33,7 +34,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
    * Constructs a RulesDataCollector object.
    *
    * @param RulesChannelLoggerWrapper $rulesLogger
-   *   The rules logger channel.
+   *   The Rules logger channel.
    */
   public function __construct(RulesChannelLoggerWrapper $rulesLogger) {
     $this->rulesLogger = $rulesLogger;
@@ -78,54 +79,50 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
   }
 
   /**
-   * Return amount of rules log entries with level higher then warning.
+   * Return amount of Rules log entries with level higher then warning.
    *
    * @return int
-   *   Amount of error rules log entries.
+   *   Amount of error Rules log entries.
    */
   public function getErrorLogsCount() {
-    $amount = 0;
-    array_walk($this->data['logs'], function ($log) use (&$amount) {
-      if (in_array($log['level'], array('error', 'critical', 'alert', 'emergency'))) {
-        $amount++;
-      }
+    $logs = array_filter($this->data['logs'], function ($log) {
+      return in_array($log['level'], array(
+        LogLevel::ERROR,
+        LogLevel::CRITICAL,
+        LogLevel::ALERT,
+        LogLevel::EMERGENCY
+      ));
     });
 
-    return $amount;
+    return count($logs);
   }
 
   /**
-   * Return amount of rules log entries with level notice or warning.
+   * Return amount of Rules log entries with level notice or warning.
    *
    * @return int
-   *   Amount of error rules log entries.
+   *   Amount of error Rules log entries.
    */
   public function getNoticeLogsCount() {
-    $amount = 0;
-    array_walk($this->data['logs'], function ($log) use (&$amount) {
-      if (in_array($log['level'], array('warning', 'notice'))) {
-        $amount++;
-      }
+    $logs = array_filter($this->data['logs'], function ($log) {
+      return in_array($log['level'], array(LogLevel::WARNING, LogLevel::NOTICE));
     });
 
-    return $amount;
+    return count($logs);
   }
 
   /**
-   * Return amount of rules info log entries.
+   * Return amount of Rules info log entries.
    *
    * @return int
-   *   Amount of error rules log entries.
+   *   Amount of error Rules log entries.
    */
   public function getInfoLogsCount() {
-    $amount = 0;
-    array_walk($this->data['logs'], function ($log) use (&$amount) {
-      if (in_array($log['level'], array('debug', 'info'))) {
-        $amount++;
-      }
+    $logs = array_filter($this->data['logs'], function ($log) {
+      return in_array($log['level'], array(LogLevel::DEBUG, LogLevel::INFO));
     });
 
-    return $amount;
+    return count($logs);
   }
 
   /**
@@ -139,7 +136,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
       '#template' => '<h3>{{ "Rules logs"|t }}</h3>',
     );
 
-    $cssHeader = array(
+    $css_header = array(
       'level',
       'message',
       'passed_context',
@@ -154,7 +151,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
     $build['logs_table'] = array(
       '#type' => 'table',
       '#rows' => $rows,
-      '#header' => $cssHeader,
+      '#header' => $css_header,
       '#sticky' => TRUE,
     );
 

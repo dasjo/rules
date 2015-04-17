@@ -1,6 +1,6 @@
-name: Rules Webprofiler test
+name: Rules Web Profiler test
 type: module
-description: 'Support module for the Rules Webprofiler integration tests.'
+description: 'Support module for the Rules Web Profiler integration tests.'
 package: Rules
 core: 8.x
 hidden: true

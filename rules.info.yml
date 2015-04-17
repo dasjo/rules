@@ -3,3 +3,5 @@ type: module
 description: 'React on events and conditionally evaluate actions.'
 package: Rules
 core: 8.x
+test_dependency:
+  - webprofiler

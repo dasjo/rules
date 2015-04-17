@@ -8,8 +8,3 @@ services:
   logger.channel.rules:
     class: Drupal\rules\Logger\RulesLoggerChannel
     arguments: ['@config.factory']
-  webprofiler.rules:
-    class: Drupal\rules\WebProfiler\DataCollector\RulesDataCollector
-    arguments: ['@logger.channel.rules']
-    tags:
-      - { name: data_collector, template: '@rules/Collector/rules.html.twig', id: 'rules', title: 'Rules', priority: 200}

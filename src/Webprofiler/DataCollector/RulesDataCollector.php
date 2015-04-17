@@ -85,7 +85,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
    */
   public function getErrorLogsCount() {
     $amount = 0;
-    array_walk($this->data['logs'], function ($log) use ($amount) {
+    array_walk($this->data['logs'], function ($log) use (&$amount) {
       if (in_array($log['level'], array('error', 'critical', 'alert', 'emergency'))) {
         $amount++;
       }
@@ -102,7 +102,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
    */
   public function getNoticeLogsCount() {
     $amount = 0;
-    array_walk($this->data['logs'], function ($log) use ($amount) {
+    array_walk($this->data['logs'], function ($log) use (&$amount) {
       if (in_array($log['level'], array('warning', 'notice'))) {
         $amount++;
       }
@@ -119,7 +119,7 @@ class RulesDataCollector extends DataCollector implements DrupalDataCollectorInt
    */
   public function getInfoLogsCount() {
     $amount = 0;
-    array_walk($this->data['logs'], function ($log) use ($amount) {
+    array_walk($this->data['logs'], function ($log) use (&$amount) {
       if (in_array($log['level'], array('debug', 'info'))) {
         $amount++;
       }

@@ -16,18 +16,7 @@ class RulesChannelLoggerWrapper extends RulesLoggerChannel {
    *
    * @var array
    */
-  protected $logs = [
-    [
-      'level' => 'info',
-      'message' => 'Hello',
-      'context' => []
-    ],
-    [
-      'level' => 'critical',
-      'message' => 'Take care!',
-      'context' => []
-    ]
-  ];
+  protected $logs;
 
   /**
    * {@inheritdoc}

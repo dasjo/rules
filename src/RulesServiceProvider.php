@@ -21,7 +21,7 @@ class RulesServiceProvider extends ServiceProviderBase {
    * {@inheritdoc}
    */
   public function register(ContainerBuilder $container) {
-    if (FALSE !== $container->hasDefinition('logger.channel.rules') && $this->isRulesDebuggingEnabled()) {
+    if (FALSE !== $container->hasDefinition('logger.channel.rules') && $container->hasDefinition('webprofiler.drupal')) {
       $container->register('webprofiler.rules', 'Drupal\rules\WebProfiler\DataCollector\RulesDataCollector')
         ->addArgument(new Reference('logger.channel.rules'))
         ->addTag('data_collector', array(
@@ -34,18 +34,6 @@ class RulesServiceProvider extends ServiceProviderBase {
       $definition = $container->findDefinition('logger.channel.rules');
       $definition->setClass('Drupal\rules\WebProfiler\RulesChannelLoggerWrapper');
     }
-  }
-
-  /**
-   * Checks whether the site is multilingual.
-   *
-   * @return bool
-   *   TRUE if the site is multilingual, FALSE otherwise.
-   */
-  protected function isRulesDebuggingEnabled() {
-    $config_storage = BootstrapConfigStorageFactory::get();
-    $config = $config_storage->read('webprofiler.config');
-    return !empty($config['active_toolbar_items']['rules']);
   }
 
 }

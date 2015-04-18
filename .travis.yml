@@ -54,6 +54,7 @@ before_script:
   - ln -s $TESTDIR modules/rules
   - drush --yes dl webprofiler
   - drush --yes pm-enable simpletest rules
+  - drush cr
   - drush --yes pm-enable webprofiler
 
   # Start a web server on port 8080, run in the background; wait for

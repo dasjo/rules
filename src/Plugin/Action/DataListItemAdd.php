@@ -8,6 +8,7 @@
 namespace Drupal\rules\Plugin\Action;
 
 use Drupal\rules\Core\RulesActionBase;
+use Drupal\Core\TypedData\ListDataDefinition;
 
 /**
  * Provides an 'Add list item' action.
@@ -54,6 +55,21 @@ class DataListItemAdd extends RulesActionBase {
    */
   public function summary() {
     return $this->t('Add list item');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function refineContextDefinitions() {
+    // todo: make it work without state
+    // Apply data selector on configuration time (use it for refining context)
+    if ($context_data = $this->getContext('list')->getContextData()) {
+      /** @var ListDataDefinition $data_definition */
+      $data_definition = $context_data->getDataDefinition();
+      $type = $data_definition->getItemDefinition()->getDataType();
+      $this->pluginDefinition['provides']['outputlist']->setDataType($type);
+      $this->pluginDefinition['provides']['outputlist']->setMultiple();
+    }
   }
 
   /**

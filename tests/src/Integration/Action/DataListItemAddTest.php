@@ -159,4 +159,33 @@ class DataListItemAddTest extends RulesIntegrationTestBase  {
     // The list should contain five items, with the new item added at the end.
     $this->assertArrayEquals(['One', 'Two', 'Three', 'Four', 'Four'], $this->action->getContextValue('list'));
   }
+
+  /**
+   * @covers ::refineContextDefinitions
+   */
+  public function testRefiningContextDefinitions() {
+    $value = ['One', 'Two', 'Three'];
+    $list_data = $this->createTypedData(ListDataDefinition::create('string'), $value);
+    $this->action->setContextValue('list', $list_data);
+    $this->action->setContextValue('item', 'Four');
+    $this->action->refineContextdefinitions();
+    $this->assertEquals(
+      $this->action->getProvidedContextDefinition('outputlist')
+        ->getDataType(), $list_data->getDataDefinition()->getDataType()
+    );
+  }
+
+  /**
+   * Creates a typed data object and ensures it implements TypedDataInterface.
+   *
+   * @see \Drupal\Core\TypedData\TypedDataManager::create().
+   */
+  protected function createTypedData($definition, $value = NULL, $name = NULL) {
+    if (is_array($definition)) {
+      $definition = DataDefinition::create($definition['type']);
+    }
+    $data = $this->typedDataManager->create($definition, $value, $name);
+    $this->assertTrue($data instanceof \Drupal\Core\TypedData\TypedDataInterface, 'Typed data object is an instance of the typed data interface.');
+    return $data;
+  }
 }

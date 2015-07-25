@@ -87,4 +87,4 @@ rules_ui.condition.add:
     _permission: 'administer rules+administer rules reactions'
   defaults:
     _title: 'Add condition'
-    _form: '\Drupal\rules\From\AddConditionForm'
+    _form: '\Drupal\rules\Form\AddConditionForm'

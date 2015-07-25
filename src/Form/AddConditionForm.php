@@ -9,6 +9,7 @@ namespace Drupal\rules\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AddConditionForm extends FormBase {
 

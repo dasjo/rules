@@ -10,7 +10,7 @@ namespace Drupal\Tests\rules\Integration\Action;
 use Drupal\Tests\rules\Integration\RulesEntityIntegrationTestBase;
 
 /**
- * @coversDefaultClass \Drupal\rules\Plugin\Action\UserBlock
+ * @coversDefaultClass \Drupal\rules\Plugin\RulesAction\UserBlock
  * @group rules_actions
  */
 class UserBlockTest extends RulesEntityIntegrationTestBase {
@@ -18,22 +18,22 @@ class UserBlockTest extends RulesEntityIntegrationTestBase {
   /**
    * Constant used for authenticated test when mocking a user.
    */
-  const AUTHENTICATED = true;
+  const AUTHENTICATED = TRUE;
 
   /**
    * Constant used for authenticated test when mocking a user.
    */
-  const ANONYMOUS = false;
+  const ANONYMOUS = FALSE;
 
   /**
    * Constant used for active test when mocking a user.
    */
-  const ACTIVE = true;
+  const ACTIVE = TRUE;
 
   /**
    * Constant used for active test when mocking a user.
    */
-  const BLOCKED = false;
+  const BLOCKED = FALSE;
 
   /**
    * The action to be tested.
@@ -92,6 +92,8 @@ class UserBlockTest extends RulesEntityIntegrationTestBase {
     $this->action->setContextValue('user', $user);
 
     $this->action->execute();
+
+    $this->assertEquals($this->action->autoSaveContext(), ['user'], 'Action returns the user context name for auto saving.');
   }
 
   /**
@@ -111,6 +113,8 @@ class UserBlockTest extends RulesEntityIntegrationTestBase {
     $this->action->setContextValue('user', $user);
 
     $this->action->execute();
+
+    $this->assertEquals($this->action->autoSaveContext(), [], 'Action returns nothing for auto saving since the user has not been altered.');
   }
 
 
@@ -131,6 +135,8 @@ class UserBlockTest extends RulesEntityIntegrationTestBase {
     $this->action->setContextValue('user', $user);
 
     $this->action->execute();
+
+    $this->assertEquals($this->action->autoSaveContext(), [], 'Action returns nothing for auto saving since the user has not been altered.');
   }
 
   /**
@@ -150,6 +156,8 @@ class UserBlockTest extends RulesEntityIntegrationTestBase {
     $this->action->setContextValue('user', $user);
 
     $this->action->execute();
+
+    $this->assertEquals($this->action->autoSaveContext(), [], 'Action returns nothing for auto saving since the user has not been altered.');
   }
 
   /**

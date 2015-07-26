@@ -37,6 +37,13 @@ abstract class RulesDrupalTestBase extends KernelTestBase {
   protected $typedDataManager;
 
   /**
+   * Rules logger.
+   *
+   * @var \Drupal\rules\Logger\RulesLoggerChannel
+   */
+  protected $logger;
+
+  /**
    * Modules to enable.
    *
    * @var array
